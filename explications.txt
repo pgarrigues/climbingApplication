@@ -1,0 +1,9 @@
+Coté server :
+API REST qui transmet les données sur les spots d'escalade.
+
+Besoin de :
+- express
+- nodemon
+- mongoose
+- cors
+- dotenv
