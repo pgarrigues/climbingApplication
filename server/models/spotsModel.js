@@ -19,8 +19,8 @@ const SpotsModel = mongoose.model(
     hauteur_max: Number,
     hauteur_moyenne: Number,
     type: String,
-    latitude: String,
-    longitude: String,
+    latitude: Number,
+    longitude: Number,
   },
   "Spots"
 );
