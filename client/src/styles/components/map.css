@@ -1,0 +1,20 @@
+.map-container {
+  height: 100%;
+  width: 100%;
+  grid-area: map-container;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-areas: "map weather";
+}
+
+.map {
+  height: 100%;
+  width: 100%;
+  grid-area: map;
+}
+
+.weather {
+  height: 100%;
+  width: 100%;
+  grid-area: weather;
+}

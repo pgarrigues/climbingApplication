@@ -1,11 +1,11 @@
 import React from 'react'
 import Navigation from '../components/Navigation'
+import '../styles/pages/search.css'
 
 const Search = () => {
     return (
-        <div>
+        <div className='searchPage'>
             <Navigation/>
-            <p>Search</p>
         </div>
     )
 }

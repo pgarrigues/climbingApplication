@@ -1,14 +1,15 @@
 import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
-import Map from './pages/Map'
+import Home from './pages/Home'
 import Search from './pages/Search';
 import NotFound from './pages/NotFound';
+import './styles/App.css'
 
 function App() {
   return (
     <BrowserRouter>
       <Switch>
-        <Route path='/' exact component={Map}/>
+        <Route path='/' exact component={Home}/>
         <Route path='/recherche' exact component={Search}/>
         <Route component={NotFound}/>
       </Switch>
