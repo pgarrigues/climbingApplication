@@ -1,6 +1,6 @@
 .navigation {
   display: flex;
-  background-color: #81cfab;
+  background-color: #6d9c8e;
   grid-area: navigation;
   border-bottom: 1px solid black;
 }

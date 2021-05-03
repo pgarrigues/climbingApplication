@@ -10,27 +10,29 @@ const Map = () => {
     const [dataSpots, setDataSpots] = useState([]);
     const [activeSpot, setActiveSpot] = useState('');
     const [info, setInfo] = useState('Aucun spot sélectionné');
-    const [infoWeatherDescription, setInfoWeatherDescription] = useState('aucun spot sélectionné');
-    const [infoTemperature, setInfoTemperature] = useState('aucun spot sélectionné');
-    const [infoHumidity, setInfoHumidity] = useState('aucun spot sélectionné');
-    const [infoWindSpeed, setInfoWindSpeed] = useState('aucun spot sélectionné');
+    const [infoWeatherDescription, setInfoWeatherDescription] = useState('');
+    const [infoTemperature, setInfoTemperature] = useState('');
+    const [infoHumidity, setInfoHumidity] = useState('');
+    const [infoWindSpeed, setInfoWindSpeed] = useState('');
 
     const CLEFAPI = "...";
+    
     let resultatsAPI;
 
     useEffect(() => {
         axios
         .get('http://localhost:5000/spots')
         .then((res) => setDataSpots(res.data))
+        .then(console.log('chargement data'))
     }, [])
 
     const weatherAPI = async (lat, long) =>{
         await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEFAPI}`)
         .then((res) => res.json())
         .then((data) => {
-            console.log(data);
+            // console.log(data);
             resultatsAPI = data;
-            // console.log(resultatsAPI);
+            console.log(resultatsAPI);
             setInfoWeatherDescription(resultatsAPI.current.weather[0].description);
             setInfoTemperature(Math.round(resultatsAPI.current.temp));
             setInfoHumidity(resultatsAPI.current.humidity);
@@ -40,7 +42,7 @@ const Map = () => {
 
     if (activeSpot !== ''){
         // console.log(info);
-        console.log(activeSpot.spot)
+        // console.log(activeSpot.spot)
     }
 
     return (
@@ -61,8 +63,8 @@ const Map = () => {
                             click: (e) => {
                                 setActiveSpot(spot);
                                 setInfo(spot.spot)
-                                console.log(e);
-                                console.log(spot.spot);
+                                // console.log(e);
+                                // console.log(spot.spot);
                                 weatherAPI(spot.latitude, spot.longitude);
                             }
                         }}
