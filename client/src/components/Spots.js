@@ -1,46 +1,50 @@
 import React, { useState } from 'react'
 import Spot from '../components/Spot'
+import { TextField, Button } from '@material-ui/core'
 import '../styles/components/spots.css'
 
 const Spots = ({dataSpots}) => {
 
     const [searchTerm, setSearchTerme] = useState(''); 
-    const [selectedRegionCheckboxes, setSelectedRegionCheckboxes] = useState('');
+    const [selectedRegionRadio, setSelectedRegionRadio] = useState('');
     const [selectedSeasonRadio , setSelectedSeasonRadio] = useState('');
-    const regionsCheckboxes = ['Alsace', 'Bourgogne', 'Franche Comté', 'Midi Pyrénées', `Provence Alpes Cote d'Azur`, 'Rhone Alpes'];
+    const regionsRadio = ['Alsace', 'Bourgogne', 'Franche Comté', 'Midi Pyrénées', `Provence Alpes Cote d'Azur`, 'Rhone Alpes'];
     const seasonRadio = ['Printemps', 'Été', 'Automne', 'Hiver'];
 
     return (
         <div className='spots'>
             <ul className='checkboxes'>
                 <li>
-                    <input type="text" id='search' placeholder='recheche' value={searchTerm} autoComplete='off' onChange={(e) => setSearchTerme(e.target.value)}/>
+                    <TextField 
+                        id="outlined-basic" 
+                        placeholder='Recherchez un mot clé' 
+                        autoComplete='off'
+                        variant="outlined" 
+                        label={searchTerm} 
+                        onChange={(e) => setSearchTerme(e.target.value)}
+                    />
                 </li>
-                <li>{searchTerm && (
-                    <button onClick={() => 
-                                        setSearchTerme("")
-
-                                    }>Effacer</button>
-                )}</li>
             </ul>
             <ul className='checkboxes'>
-                {regionsCheckboxes.map((checkbox) => {
+                {regionsRadio.map((checkbox) => {
                     return(
                         <li key={checkbox}>
-                            <input type="checkbox" 
+                            <input type="radio" 
                                     value={checkbox} 
                                     id={checkbox} 
-                                    checked={checkbox===selectedRegionCheckboxes}
-                                    onChange={(e) => setSelectedRegionCheckboxes(e.target.value)}
+                                    checked={checkbox===selectedRegionRadio}
+                                    onChange={(e) => setSelectedRegionRadio(e.target.value)}
                             />
                             <label htmlFor="checkbox">{checkbox}</label>
                         </li>
                     )
                 })}
-                <li><button onClick={() => setSelectedRegionCheckboxes("")}>{selectedRegionCheckboxes ? 'Annuler filtre' : ''}</button></li>
-                <li>{selectedRegionCheckboxes && (
-                    <button onClick={() => setSelectedRegionCheckboxes("")}>Annuler filtre</button>
-                )}</li>
+                <li>{selectedRegionRadio && (
+                        <Button variant="outlined" color="secondary" onClick={() => setSelectedRegionRadio("")}>
+                            Supprimer filtre
+                        </Button>
+                    )}
+                </li>
             </ul>
             <ul className='checkboxes'>
                 {seasonRadio.map((radio) => {
@@ -57,7 +61,9 @@ const Spots = ({dataSpots}) => {
                     )
                 })}
                 <li>{selectedSeasonRadio && (
-                    <button onClick={() => setSelectedSeasonRadio("")}>Annuler filtre</button>
+                    <Button variant="outlined" color="secondary" onClick={() => setSelectedSeasonRadio("")}>
+                            Supprimer filtre
+                    </Button>
                 )}</li>
             </ul>
             {dataSpots
@@ -70,7 +76,7 @@ const Spots = ({dataSpots}) => {
                                     || spot.approche.toLowerCase().includes(searchTerm)
                                     || spot.orientation.toLowerCase().includes(searchTerm)
                                     || spot.type.toLowerCase().includes(searchTerm)))
-                .filter((spot) => (spot.region.includes(selectedRegionCheckboxes)))
+                .filter((spot) => (spot.region.includes(selectedRegionRadio)))
                 .filter((spot) => (spot.meilleures_saisons.includes(selectedSeasonRadio)))
                 .map((spot) => (
                 <Spot key={spot._id} spot={spot}/>

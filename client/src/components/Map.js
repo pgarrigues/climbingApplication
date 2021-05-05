@@ -1,13 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import Weather from '../components/Weather'
 import '../styles/components/map.css'
 
-import axios from 'axios'
+const Map = ({dataSpots}) => {
 
-const Map = () => {
-
-    const [dataSpots, setDataSpots] = useState([]);
     const [activeSpot, setActiveSpot] = useState('');
     const [info, setInfo] = useState('Aucun spot sélectionné');
     const [infoWeatherDescription, setInfoWeatherDescription] = useState('');
@@ -15,16 +12,9 @@ const Map = () => {
     const [infoHumidity, setInfoHumidity] = useState('');
     const [infoWindSpeed, setInfoWindSpeed] = useState('');
 
-    const CLEFAPI = "...";
+    const CLEFAPI = "";
     
     let resultatsAPI;
-
-    useEffect(() => {
-        axios
-        .get('http://localhost:5000/spots')
-        .then((res) => setDataSpots(res.data))
-        .then(console.log('chargement data'))
-    }, [])
 
     const weatherAPI = async (lat, long) =>{
         await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEFAPI}`)
@@ -66,6 +56,7 @@ const Map = () => {
                                 // console.log(e);
                                 // console.log(spot.spot);
                                 weatherAPI(spot.latitude, spot.longitude);
+                                console.log(dataSpots)
                             }
                         }}
                     >

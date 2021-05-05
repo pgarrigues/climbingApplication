@@ -1,15 +1,5 @@
 .spot {
-  height: 200px;
-  margin: 14px;
-  padding: 10px;
-  list-style-type: none;
-  border: 1px solid black;
-  border-radius: 2px;
-  background-color: rgb(216, 213, 208);
-  display: flex;
-  flex-direction: column;
-}
-
-.titleSpot {
-  font-size: 17px;
+  height: 300px;
+  margin: 15px;
+  cursor: pointer;
 }

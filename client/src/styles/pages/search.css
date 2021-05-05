@@ -1,4 +1,6 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap");
+
 .searchPage {
   width: 100%;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Roboto", sans-serif;
 }

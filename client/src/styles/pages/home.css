@@ -1,7 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;300&display=swap");
+
 .homePage {
   width: 100%;
   height: 100vh;
-  font-family: "Courier New", Courier, monospace;
+  font-family: "Roboto", sans-serif;
   display: grid;
   grid-template-rows: 60px 1fr;
   grid-template-columns: 1fr;
