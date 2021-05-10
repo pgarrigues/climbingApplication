@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import Weather from '../components/Weather'
 import '../styles/components/map.css'
 
-const Map = ({dataSpots}) => {
+const Map = ({dataSpots, dateNow, previousDate}) => {
 
     const [activeSpot, setActiveSpot] = useState('');
     const [info, setInfo] = useState('Aucun spot sélectionné');
@@ -11,12 +11,23 @@ const Map = ({dataSpots}) => {
     const [infoTemperature, setInfoTemperature] = useState('');
     const [infoHumidity, setInfoHumidity] = useState('');
     const [infoWindSpeed, setInfoWindSpeed] = useState('');
+    const [minDayOne, setMinDayOne] = useState(0);
+    const [minDayTwo, setMinDayTwo] = useState(0);
+    const [minDayThree, setMinDayThree] = useState(0);
+    const [minDayFour, setMinDayFour] = useState(0);
+    const [minDayFive, setMinDayFive] = useState(0);
+    const [maxDayOne, setMaxDayOne] = useState(0);
+    const [maxDayTwo, setMaxDayTwo] = useState(0);
+    const [maxDayThree, setMaxDayThree] = useState(0);
+    const [maxDayFour, setMaxDayFour] = useState(0);
+    const [maxDayFive, setMaxDayFive] = useState(0);
 
     const CLEFAPI = "";
     
     let resultatsAPI;
+    let historicalResults;
 
-    const weatherAPI = async (lat, long) =>{
+    const weatherAPI = async (lat, long) => {
         await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEFAPI}`)
         .then((res) => res.json())
         .then((data) => {
@@ -27,6 +38,25 @@ const Map = ({dataSpots}) => {
             setInfoTemperature(Math.round(resultatsAPI.current.temp));
             setInfoHumidity(resultatsAPI.current.humidity);
             setInfoWindSpeed(resultatsAPI.current.wind_speed);
+            setMinDayOne(resultatsAPI.daily[1].temp.min);
+            setMinDayTwo(resultatsAPI.daily[2].temp.min);
+            setMinDayThree(resultatsAPI.daily[3].temp.min);
+            setMinDayFour(resultatsAPI.daily[4].temp.min);
+            setMinDayFive(resultatsAPI.daily[5].temp.min);
+            setMaxDayOne(resultatsAPI.daily[1].temp.max);
+            setMaxDayTwo(resultatsAPI.daily[2].temp.max);
+            setMaxDayThree(resultatsAPI.daily[3].temp.max);
+            setMaxDayFour(resultatsAPI.daily[4].temp.max);
+            setMaxDayFive(resultatsAPI.daily[5].temp.max);
+        });
+    }
+
+    const historicalWeatherAPI = async (lat, long, previousDate, dateNow) => {
+        await fetch(`http://history.openweathermap.org/data/2.5/history/city?lat=${lat}&lon=${long}&type=hour&start=${previousDate}&end=${dateNow}&appid=${CLEFAPI}`)
+        .then((res) => res.json())
+        .then((data) => {
+            historicalResults = data;
+            console.log(historicalResults);
         });
     }
 
@@ -56,7 +86,8 @@ const Map = ({dataSpots}) => {
                                 // console.log(e);
                                 // console.log(spot.spot);
                                 weatherAPI(spot.latitude, spot.longitude);
-                                console.log(dataSpots)
+                                historicalWeatherAPI(spot.latitude, spot.longitude, previousDate, dateNow)
+                                // console.log(dataSpots)
                             }
                         }}
                     >
@@ -84,6 +115,16 @@ const Map = ({dataSpots}) => {
                 infoTemperature={infoTemperature}
                 infoHumidity={infoHumidity}
                 infoWindSpeed={infoWindSpeed}
+                minDayOne={minDayOne}
+                minDayTwo={minDayTwo}
+                minDayThree={minDayThree}
+                minDayFour={minDayFour}
+                minDayFive={minDayFive}
+                maxDayOne={maxDayOne}
+                maxDayTwo={maxDayTwo}
+                maxDayThree={maxDayThree}
+                maxDayFour={maxDayFour}
+                maxDayFive={maxDayFive}
                 className="weather"
             />
         </div>
