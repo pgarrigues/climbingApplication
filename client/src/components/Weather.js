@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import {Line} from 'react-chartjs-2';
 import '../styles/components/weather.css'
 
-const Weather = ({info, activeSpot, infoWeatherDescription, infoTemperature, infoHumidity, infoWindSpeed, 
+const Weather = ({info, activeSpot, infoWeatherDescription, icon, infoTemperature, infoHumidity, infoWindSpeed, 
                     minDayOne, minDayTwo, minDayThree, minDayFour, minDayFive,
                     maxDayOne, maxDayTwo, maxDayThree, maxDayFour, maxDayFive
                 }) => {
@@ -12,21 +12,21 @@ const Weather = ({info, activeSpot, infoWeatherDescription, infoTemperature, inf
     useEffect(() => {
         const chart = () => {
         setChartData({
-                labels: ['j1', 'j2', 'j3', 'j4', 'j5'],
+                labels: ['j+1', 'j+2', 'j+3', 'j+4', 'j+5'],
                 datasets: [
                 {
-                    label: 'min temperatures',
+                    label: 'Températures min',
                     data: [minDayOne, minDayTwo, minDayThree, minDayFour, minDayFive],
                     backgroundColor: [
-                        'rgba(75, 192, 192, 0.6)'
+                        '#71C9CA'
                     ],
                     borderWidth: 4
                 },
                 {
-                    label: 'max temperatures',
+                    label: 'Températures max',
                     data: [maxDayOne, maxDayTwo, maxDayThree, maxDayFour, maxDayFive],
                     backgroundColor: [
-                        '#080909'
+                        '#ED462F'
                     ],
                     borderWidth: 4
                 }]
@@ -40,20 +40,22 @@ const Weather = ({info, activeSpot, infoWeatherDescription, infoTemperature, inf
             <h1>{info}</h1>
             <p>{activeSpot ? activeSpot.region : ''}</p>
             <br/>
-            <h2>{activeSpot ? 'Météo' : ''}</h2> 
+            <h2>{activeSpot ? 'Météo' : ''}</h2>
+            {activeSpot ? 
+            <div style={{background:'white'}}>
+                <img src={require(`../assets/weatherIcons/${icon}.svg`).default} alt="weather" width="100" height="100"/>
+            </div> : ''}
             <p>{activeSpot ? `${infoWeatherDescription.toUpperCase()}` : ''}</p>
             <p>{activeSpot ? `Température : ${infoTemperature} degrés` : ''}</p>
             <p>{activeSpot ? `Humidité : ${infoHumidity} %` : ''}</p>
             <p>{activeSpot && infoHumidity > 80 ? 'Humidité élevée' : ''}</p>
             <p>{activeSpot ? `Vitesse du vent : ${infoWindSpeed} km/h` : ''}</p>
-            <p>{activeSpot ? `Min jour 1 : ${minDayOne} degrés` : ''}</p>
-            <p>{activeSpot ? `Min jour 2 : ${minDayTwo} degrés` : ''}</p>
-            <p>{activeSpot ? `Min jour 3 : ${minDayThree} degrés` : ''}</p>
-            <p>{activeSpot ? `Min jour 4 : ${minDayFour} degrés` : ''}</p>
-            <p>{activeSpot ? `Min jour 5 : ${minDayFive} degrés` : ''}</p>
+            <br />
+            {activeSpot ? 
             <div>
                 <Line data={chartData}/>
             </div>
+            : ''}
         </div>
     )
 }

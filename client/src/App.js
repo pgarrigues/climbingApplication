@@ -8,8 +8,6 @@ import './styles/App.css'
 
 const App = () => {
 
-  const [dateNow, setDateNow] = useState('');
-  const [previousDate, setPreviousDate] = useState('');
   const [dataSpots, setDataSpots] = useState([]);
 
   useEffect(() => {
@@ -17,22 +15,13 @@ const App = () => {
         .get('http://localhost:5000/spots')
         .then((res) => setDataSpots(res.data))
         .then(console.log('chargement data'))
-        .then(setDateNow(Date.now()))
-        .then(setPreviousDate(Date.now()-172800))
     }, [])
-  
-  console.log(dateNow);
-  console.log(previousDate);
 
   return (
     <BrowserRouter>
       <Switch>
         <Route path='/' exact>
-          <Home 
-            dataSpots={dataSpots}
-            dateNow={dateNow}
-            previousDate={previousDate}
-          />
+          <Home dataSpots={dataSpots}/>
         </Route>
         <Route path='/recherche' exact>
           <Search dataSpots={dataSpots}/>

@@ -1,13 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import Weather from '../components/Weather'
 import '../styles/components/map.css'
 
-const Map = ({dataSpots, dateNow, previousDate}) => {
+const Map = ({dataSpots}) => {
 
+    const [dateNow, setDateNow] = useState('');
     const [activeSpot, setActiveSpot] = useState('');
     const [info, setInfo] = useState('Aucun spot sélectionné');
     const [infoWeatherDescription, setInfoWeatherDescription] = useState('');
+    const [icon, setIcon] = useState('01d');
     const [infoTemperature, setInfoTemperature] = useState('');
     const [infoHumidity, setInfoHumidity] = useState('');
     const [infoWindSpeed, setInfoWindSpeed] = useState('');
@@ -23,9 +25,17 @@ const Map = ({dataSpots, dateNow, previousDate}) => {
     const [maxDayFive, setMaxDayFive] = useState(0);
 
     const CLEFAPI = "";
+    const CLEFAPI2 = "";
     
     let resultatsAPI;
     let historicalResults;
+
+    useEffect(()=> {
+        const date = () => {
+            setDateNow(Math.round((new Date()).getTime() / 1000)-86400);
+        }
+        date();
+    }, []);
 
     const weatherAPI = async (lat, long) => {
         await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEFAPI}`)
@@ -35,6 +45,7 @@ const Map = ({dataSpots, dateNow, previousDate}) => {
             resultatsAPI = data;
             console.log(resultatsAPI);
             setInfoWeatherDescription(resultatsAPI.current.weather[0].description);
+            setIcon(resultatsAPI.current.weather[0].icon);
             setInfoTemperature(Math.round(resultatsAPI.current.temp));
             setInfoHumidity(resultatsAPI.current.humidity);
             setInfoWindSpeed(resultatsAPI.current.wind_speed);
@@ -51,8 +62,8 @@ const Map = ({dataSpots, dateNow, previousDate}) => {
         });
     }
 
-    const historicalWeatherAPI = async (lat, long, previousDate, dateNow) => {
-        await fetch(`http://history.openweathermap.org/data/2.5/history/city?lat=${lat}&lon=${long}&type=hour&start=${previousDate}&end=${dateNow}&appid=${CLEFAPI}`)
+    const historicalWeatherAPI = async (lat, long, dateNow) => {
+        await fetch(`https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=${lat}&lon=${long}&dt=${dateNow}&appid=${CLEFAPI2}`)
         .then((res) => res.json())
         .then((data) => {
             historicalResults = data;
@@ -82,12 +93,13 @@ const Map = ({dataSpots, dateNow, previousDate}) => {
                         eventHandlers={{
                             click: (e) => {
                                 setActiveSpot(spot);
-                                setInfo(spot.spot)
+                                setInfo(spot.spot);
                                 // console.log(e);
                                 // console.log(spot.spot);
                                 weatherAPI(spot.latitude, spot.longitude);
-                                historicalWeatherAPI(spot.latitude, spot.longitude, previousDate, dateNow)
+                                historicalWeatherAPI(spot.latitude, spot.longitude, dateNow)
                                 // console.log(dataSpots)
+                                console.log(dateNow);
                             }
                         }}
                     >
@@ -125,6 +137,7 @@ const Map = ({dataSpots, dateNow, previousDate}) => {
                 maxDayThree={maxDayThree}
                 maxDayFour={maxDayFour}
                 maxDayFive={maxDayFive}
+                icon={icon}
                 className="weather"
             />
         </div>
