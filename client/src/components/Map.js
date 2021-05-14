@@ -24,8 +24,8 @@ const Map = ({dataSpots}) => {
     const [maxDayFour, setMaxDayFour] = useState(0);
     const [maxDayFive, setMaxDayFive] = useState(0);
 
-    const CLEFAPI = "";
-    const CLEFAPI2 = "";
+    const CLEFAPI = "...";
+    const CLEFAPI2 = "...";
     
     let resultatsAPI;
     let historicalResults;

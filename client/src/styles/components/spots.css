@@ -1,9 +1,35 @@
+.container {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 150px 1fr;
+  grid-template-areas:
+    "criterias weather"
+    "spots weather";
+}
+
+.criterias {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  grid-area: criterias;
+}
+
 .spots {
   padding: 20px;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-area: spots;
 }
 
-.checkboxes {
-  list-style-type: none;
+.weather {
+  grid-area: weather;
+  display: flex;
+  justify-content: center;
+}
+
+.hello {
+  top: 50%;
+  position: fixed;
 }

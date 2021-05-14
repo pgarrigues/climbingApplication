@@ -1,87 +1,76 @@
 import React, { useState } from 'react'
+import SelectByKeyWord from '../components/SelectByKeyWord'
+import SelectRegion from '../components/SelectRegion'
+import SelectType from '../components/SelectType'
+import SelectSeason from '../components/SelectSeason'
 import Spot from '../components/Spot'
-import { TextField, Button } from '@material-ui/core'
 import '../styles/components/spots.css'
 
 const Spots = ({dataSpots}) => {
 
-    const [searchTerm, setSearchTerme] = useState(''); 
-    const [selectedRegionRadio, setSelectedRegionRadio] = useState('');
-    const [selectedSeasonRadio , setSelectedSeasonRadio] = useState('');
-    const regionsRadio = ['Alsace', 'Bourgogne', 'Franche Comté', 'Midi Pyrénées', `Provence Alpes Cote d'Azur`, 'Rhone Alpes'];
-    const seasonRadio = ['Printemps', 'Été', 'Automne', 'Hiver'];
+    const [selectedKeyWord , setSelectedKeyWord] = useState("");
+    const [selectedRegion, setSelectedRegion] = useState("");
+    const [selectedType, setSelectedType] = useState("");
+    const [selectedSeason, setSelectedSeason] =useState("");
+
+    const CLEFAPI = "...";
+    let resultatsAPI;
+
+    const onChangeKeyWord = (event) => {
+        setSelectedKeyWord(event.target.value);
+    };
+
+    const handleChangeRegion = (event) => {
+        setSelectedRegion(event.target.value)
+    };
+
+    const handleChangeType = (event) => {
+        setSelectedType(event.target.value);
+    };
+
+    const handleChangeSeason = (event) => {
+        setSelectedSeason(event.target.value);
+    };
+
+    const weatherAPI = async (lat, long) => {
+        await fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=minutely&units=metric&lang=fr&appid=${CLEFAPI}`)
+        .then((res) => res.json())
+        .then((data) => {
+            // console.log(data);
+            resultatsAPI = data;
+            console.log(resultatsAPI);
+        });
+    }
+
+    const handleCallWeatherAPI = (latitude, longitude) => {
+        weatherAPI(latitude, longitude);
+    }
 
     return (
-        <div className='spots'>
-            <ul className='checkboxes'>
-                <li>
-                    <TextField 
-                        id="outlined-basic" 
-                        placeholder='Recherchez un mot clé' 
-                        autoComplete='off'
-                        variant="outlined" 
-                        label={searchTerm} 
-                        onChange={(e) => setSearchTerme(e.target.value)}
-                    />
-                </li>
-            </ul>
-            <ul className='checkboxes'>
-                {regionsRadio.map((checkbox) => {
-                    return(
-                        <li key={checkbox}>
-                            <input type="radio" 
-                                    value={checkbox} 
-                                    id={checkbox} 
-                                    checked={checkbox===selectedRegionRadio}
-                                    onChange={(e) => setSelectedRegionRadio(e.target.value)}
-                            />
-                            <label htmlFor="checkbox">{checkbox}</label>
-                        </li>
-                    )
-                })}
-                <li>{selectedRegionRadio && (
-                        <Button variant="outlined" color="secondary" onClick={() => setSelectedRegionRadio("")}>
-                            Supprimer filtre
-                        </Button>
-                    )}
-                </li>
-            </ul>
-            <ul className='checkboxes'>
-                {seasonRadio.map((radio) => {
-                    return(
-                        <li key={radio}>
-                            <input type="radio"
-                                    value={radio}
-                                    id={radio}
-                                    checked={radio===selectedSeasonRadio}
-                                    onChange={(e) => setSelectedSeasonRadio(e.target.value)}
-                            />
-                            <label htmlFor="radio">{radio}</label>
-                        </li>
-                    )
-                })}
-                <li>{selectedSeasonRadio && (
-                    <Button variant="outlined" color="secondary" onClick={() => setSelectedSeasonRadio("")}>
-                            Supprimer filtre
-                    </Button>
-                )}</li>
-            </ul>
+        <div className="container">
+            <div className='criterias'>
+                <SelectByKeyWord onChangeKeyWord={onChangeKeyWord}/>
+                <SelectRegion selectedRegion={selectedRegion} handleChangeRegion={handleChangeRegion}/>
+                <SelectType selectedType={selectedType} handleChangeType={handleChangeType}/>
+                <SelectSeason selectedSeason={selectedSeason} handleChangeSeason={handleChangeSeason}/>
+            </div>
+            <div className='spots'>
             {dataSpots
-                .filter((spot) => (spot.spot.toLowerCase().includes(searchTerm)
-                                    || spot.region.toLowerCase().includes(searchTerm)
-                                    || spot.departement.toLowerCase().includes(searchTerm)
-                                    || spot.ville.toLowerCase().includes(searchTerm)
-                                    || spot.hauteur.toLowerCase().includes(searchTerm)
-                                    || spot.meilleures_saisons.toLowerCase().includes(searchTerm)
-                                    || spot.approche.toLowerCase().includes(searchTerm)
-                                    || spot.orientation.toLowerCase().includes(searchTerm)
-                                    || spot.type.toLowerCase().includes(searchTerm)))
-                .filter((spot) => (spot.region.includes(selectedRegionRadio)))
-                .filter((spot) => (spot.meilleures_saisons.includes(selectedSeasonRadio)))
+                .filter((spot) => (spot.spot.toLowerCase().includes(selectedKeyWord) 
+                                    || spot.ville.toLowerCase().includes(selectedKeyWord)))
+                .filter((spot) => spot.region.includes(selectedRegion))
+                .filter((spot) => (spot.type.includes(selectedType)))
+                .filter((spot) => spot.meilleures_saisons.includes(selectedSeason))
                 .map((spot) => (
-                <Spot key={spot._id} spot={spot}/>
+                <Spot key={spot._id} spot={spot} handleCallWeatherAPI={handleCallWeatherAPI}/>
                 ))
             }
+            </div>
+            <div className="weather">
+                <p className='hello'>
+                    Hello météo
+                </p>
+            </div>
         </div>
     )
 }
