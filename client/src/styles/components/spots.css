@@ -25,11 +25,6 @@
 
 .weather {
   grid-area: weather;
-  display: flex;
-  justify-content: center;
-}
-
-.hello {
-  top: 50%;
   position: fixed;
+  left: 50%;
 }

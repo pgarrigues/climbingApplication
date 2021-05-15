@@ -4,6 +4,7 @@ import SelectRegion from '../components/SelectRegion'
 import SelectType from '../components/SelectType'
 import SelectSeason from '../components/SelectSeason'
 import Spot from '../components/Spot'
+import Weather from '../components/Weather'
 import '../styles/components/spots.css'
 
 const Spots = ({dataSpots}) => {
@@ -13,7 +14,25 @@ const Spots = ({dataSpots}) => {
     const [selectedType, setSelectedType] = useState("");
     const [selectedSeason, setSelectedSeason] =useState("");
 
-    const CLEFAPI = "...";
+    const [activeSpot, setActiveSpot] = useState('');
+    const [info, setInfo] = useState('Aucun spot sélectionné');
+    const [infoWeatherDescription, setInfoWeatherDescription] = useState('');
+    const [icon, setIcon] = useState('01d');
+    const [infoTemperature, setInfoTemperature] = useState('');
+    const [infoHumidity, setInfoHumidity] = useState('');
+    const [infoWindSpeed, setInfoWindSpeed] = useState('');
+    const [minDayOne, setMinDayOne] = useState(0);
+    const [minDayTwo, setMinDayTwo] = useState(0);
+    const [minDayThree, setMinDayThree] = useState(0);
+    const [minDayFour, setMinDayFour] = useState(0);
+    const [minDayFive, setMinDayFive] = useState(0);
+    const [maxDayOne, setMaxDayOne] = useState(0);
+    const [maxDayTwo, setMaxDayTwo] = useState(0);
+    const [maxDayThree, setMaxDayThree] = useState(0);
+    const [maxDayFour, setMaxDayFour] = useState(0);
+    const [maxDayFive, setMaxDayFive] = useState(0);
+
+    const CLEFAPI = "";
     let resultatsAPI;
 
     const onChangeKeyWord = (event) => {
@@ -39,6 +58,21 @@ const Spots = ({dataSpots}) => {
             // console.log(data);
             resultatsAPI = data;
             console.log(resultatsAPI);
+            setInfoWeatherDescription(resultatsAPI.current.weather[0].description);
+            setIcon(resultatsAPI.current.weather[0].icon);
+            setInfoTemperature(Math.round(resultatsAPI.current.temp));
+            setInfoHumidity(resultatsAPI.current.humidity);
+            setInfoWindSpeed(resultatsAPI.current.wind_speed);
+            setMinDayOne(resultatsAPI.daily[1].temp.min);
+            setMinDayTwo(resultatsAPI.daily[2].temp.min);
+            setMinDayThree(resultatsAPI.daily[3].temp.min);
+            setMinDayFour(resultatsAPI.daily[4].temp.min);
+            setMinDayFive(resultatsAPI.daily[5].temp.min);
+            setMaxDayOne(resultatsAPI.daily[1].temp.max);
+            setMaxDayTwo(resultatsAPI.daily[2].temp.max);
+            setMaxDayThree(resultatsAPI.daily[3].temp.max);
+            setMaxDayFour(resultatsAPI.daily[4].temp.max);
+            setMaxDayFive(resultatsAPI.daily[5].temp.max);
         });
     }
 
@@ -62,15 +96,29 @@ const Spots = ({dataSpots}) => {
                 .filter((spot) => (spot.type.includes(selectedType)))
                 .filter((spot) => spot.meilleures_saisons.includes(selectedSeason))
                 .map((spot) => (
-                <Spot key={spot._id} spot={spot} handleCallWeatherAPI={handleCallWeatherAPI}/>
+                <Spot key={spot._id} spot={spot} handleCallWeatherAPI={handleCallWeatherAPI} setActiveSpot={setActiveSpot} setInfo={setInfo}/>
                 ))
             }
             </div>
-            <div className="weather">
-                <p className='hello'>
-                    Hello météo
-                </p>
-            </div>
+            <Weather className="weather"
+                info={info}
+                activeSpot={activeSpot}
+                infoWeatherDescription={infoWeatherDescription}                    
+                infoTemperature={infoTemperature}
+                infoHumidity={infoHumidity}
+                infoWindSpeed={infoWindSpeed}
+                minDayOne={minDayOne}
+                minDayTwo={minDayTwo}
+                minDayThree={minDayThree}
+                minDayFour={minDayFour}
+                minDayFive={minDayFive}
+                maxDayOne={maxDayOne}
+                maxDayTwo={maxDayTwo}
+                maxDayThree={maxDayThree}
+                maxDayFour={maxDayFour}
+                maxDayFive={maxDayFive}
+                icon={icon}
+            />
         </div>
     )
 }
