@@ -6,10 +6,10 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 
-const Spot = ({spot, handleCallWeatherAPI, setActiveSpot, setInfo}) => {
+const Spot = ({spot, setActiveSpot, handleCallWeatherAPI}) => {
 
     return (
-        <Card className='spot' onClick={function(event){ handleCallWeatherAPI(spot.latitude, spot.longitude); setActiveSpot(spot); setInfo(spot.spot);}}>
+        <Card className='spot' onClick={function(event){ handleCallWeatherAPI(spot.latitude, spot.longitude); setActiveSpot(spot);}}>
             <CardContent >
                 <Typography variant="h5" component="h2">
                     {spot.spot}

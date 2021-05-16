@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import Map from './Map'
 import Weather from './Weather'
-import '../styles/components/map.css'
+import '../styles/components/homebody.css'
 
 const HomeBody = ({dataSpots}) => {
 
-    const [info, setInfo] = useState('Aucun spot sélectionné');
     const [activeSpot, setActiveSpot] = useState('');
     const [weatherDescription, setWeatherDescription] = useState({
         // current weather
@@ -193,15 +192,13 @@ const HomeBody = ({dataSpots}) => {
     }
 
     return (
-        <div className="map-container">
+        <div className="homebody">
             <Map 
                 dataSpots={dataSpots}
                 setActiveSpot={setActiveSpot}
-                setInfo={setInfo}
                 handleCallWeatherAPI={handleCallWeatherAPI}
             />
             <Weather
-                info={info}
                 activeSpot={activeSpot}
                 weatherDescription={weatherDescription}
                 className="weather"

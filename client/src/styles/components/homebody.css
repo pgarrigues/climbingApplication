@@ -1,7 +1,7 @@
-.map-container {
+.homebody {
   height: 100%;
   width: 100%;
-  grid-area: map-container;
+  grid-area: homebody;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-areas: "map weather";

@@ -1,44 +1,47 @@
 import React from 'react'
+import WeeklyChart from './WeeklyChart'
 import '../styles/components/weather.css'
 
-const Weather = ({info, activeSpot, weatherDescription}) => {
+const Weather = ({activeSpot, weatherDescription}) => {
 
     return (
         <div className='weather-container'>
             <div className='left-panel'>
                 <div className='current-weather'>
-                    <h1>{info}</h1>
+                    <h1>{activeSpot ? activeSpot.spot : 'Aucun spot sélectionné'}</h1>
                     <p>{activeSpot ? activeSpot.region : ''}</p>
                     {activeSpot ? 
                     <div style={{background:'white'}}>
                         <img src={require(`../assets/weatherIcons/${weatherDescription.icon}.svg`).default} alt="weather" width="100" height="100"/>
                     </div> : ''}
                     <p>{activeSpot ? `${weatherDescription.currentWeatherDescription.toUpperCase()}` : ''}</p>
-                    <p>{activeSpot ? `${weatherDescription.currentTemp} degrés` : ''}</p>
+                    <p>{activeSpot ? `${weatherDescription.currentTemp}°` : ''}</p>
                     <p>{weatherDescription.currentRain ? `Pluie : ${weatherDescription.currentRain["1h"]} mm dans l'heure` : ''}</p>
                     <p>{activeSpot ? `Humidité : ${weatherDescription.currentHumidity} %` : ''}</p>
                     <p>{activeSpot ? `Vent : ${weatherDescription.currentWind} km/h` : ''}</p>
                 </div>
                 <div className='daily-weather'>
-                    <p>{activeSpot ? 'Prévisions journées' : ''}</p>
-                    <p>{activeSpot ? `${weatherDescription.dailyWeatherDescription.toUpperCase()}` : ''}</p>
-                    <p>{activeSpot ? `${weatherDescription.dailyMinTemp} | ${weatherDescription.dailyMaxTemp}` : ''}</p>
-                    <p>{weatherDescription.dailyRain ? `${weatherDescription.dailyRain} mm` : ''}</p>
-                    <p>{activeSpot ? `${weatherDescription.dailyHumidity} %` : ''}</p>
-                    <p>{activeSpot ? `${weatherDescription.dailyWind} km/h` : ''}</p>
-                    <p>{activeSpot ? `${weatherDescription.dailySunrise}` : ''}</p>
-                    <p>{activeSpot ? `${weatherDescription.dailySunset}` : ''}</p>
-                    <p>{activeSpot ? `${weatherDescription.dailyUVi}` : ''}</p>
+                    <h2>{activeSpot ? 'Prévisions journées' : ''}</h2>
+                    <ul className="withOutDot">
+                        <li>{activeSpot ? `${weatherDescription.dailyWeatherDescription.toUpperCase()}` : ''}</li>
+                        <li>{activeSpot ? `${weatherDescription.dailyMinTemp}° | ${weatherDescription.dailyMaxTemp}°` : ''}</li>
+                        <li>{weatherDescription.dailyRain ? `Précipitations : ${weatherDescription.dailyRain} mm` : ''}</li>
+                        <li>{activeSpot ? `Humidité : ${weatherDescription.dailyHumidity} %` : ''}</li>
+                        <li>{activeSpot ? `Vent moyen : ${weatherDescription.dailyWind} km/h` : ''}</li>
+                        <li>{activeSpot ? `Lever soleil : ${weatherDescription.dailySunrise}` : ''}</li>
+                        <li>{activeSpot ? `Coucher soleil : ${weatherDescription.dailySunset}` : ''}</li>
+                        <li>{activeSpot ? `Indice UV : ${weatherDescription.dailyUVi}` : ''}</li>
+                    </ul>
                 </div>
                 <div className='weekly-graph'>
-                    <p>{activeSpot ? 'Graph' : ''}</p>
+                    {activeSpot ? <WeeklyChart weatherDescription={weatherDescription}/> : ''}
                 </div>
             </div>
             <div className={activeSpot ? 'right-panel border-left' : 'right-panel'}>
                 {/* Div météo par heure */}
                 <div className={activeSpot ? 'hourly-weather border-bottom' : 'hourly-weather'} >
                     {/* 1ère ligne */}
-                        {activeSpot ? <div className='weather-case'>Prochaines heures :</div> : <div className='weather-case'></div>}
+                        <div className='weather-case'></div>
                         <div className='weather-case'></div>
                         {activeSpot ? <div className='weather-case'>Temp</div> : <div className='weather-case'></div>}
                         {activeSpot ? <div className='weather-case'>Humidité</div> : <div className='weather-case'></div>}
@@ -187,7 +190,7 @@ const Weather = ({info, activeSpot, weatherDescription}) => {
                 {/* Div météo par jour */}
                 <div className='weekly-weather'>
                     {/* 1ère ligne */}
-                        {activeSpot ? <div className='weather-case'>Prochains jours :</div> : <div className='weather-case'></div>}
+                        <div className='weather-case'></div>
                         <div className='weather-case'></div>
                         {activeSpot ? <div className='weather-case'>Temp</div> : <div className='weather-case'></div>}
                         {activeSpot ? <div className='weather-case'>Humidité</div> : <div className='weather-case'></div>}

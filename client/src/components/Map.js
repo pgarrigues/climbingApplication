@@ -1,7 +1,7 @@
 import React from 'react'
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 
-const Map = ({dataSpots, setInfo, setActiveSpot, handleCallWeatherAPI}) => {
+const Map = ({dataSpots, setActiveSpot, handleCallWeatherAPI}) => {
     return (
         <div>
             <MapContainer className='map' center={[47.066667, 2.333333]} zoom={6} scrollWheelZoom={false}>
@@ -19,7 +19,6 @@ const Map = ({dataSpots, setInfo, setActiveSpot, handleCallWeatherAPI}) => {
                         eventHandlers={{
                             click: () => {
                                 handleCallWeatherAPI(spot.latitude, spot.longitude);
-                                setInfo(spot.spot);
                                 setActiveSpot(spot);
                             }
                         }}
