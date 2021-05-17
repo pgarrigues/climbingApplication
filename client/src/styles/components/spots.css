@@ -25,6 +25,8 @@
 
 .weather {
   grid-area: weather;
-  position: fixed;
-  left: 50%;
+  height: 100vh;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0px;
 }

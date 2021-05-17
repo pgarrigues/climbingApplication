@@ -4,6 +4,22 @@ import '../styles/components/weather.css'
 
 const Weather = ({activeSpot, weatherDescription}) => {
 
+    // heures
+    let timePlusTwo = new Date().getHours()+2 < 24 ? new Date().getHours()+2 : new Date().getHours()+2-24;
+    let timePlusFour = new Date().getHours()+4 < 24 ? new Date().getHours()+4 : new Date().getHours()+4-24;
+    let timePlusSix = new Date().getHours()+6 < 24 ? new Date().getHours()+6 : new Date().getHours()+6-24;
+    let timePlusHeight = new Date().getHours()+8 < 24 ? new Date().getHours()+8 : new Date().getHours()+8-24;
+    let timePlusTen = new Date().getHours()+10 < 24 ? new Date().getHours()+10 : new Date().getHours()+10-24;
+    let timePlusTwelve = new Date().getHours()+12 < 24 ? new Date().getHours()+12 : new Date().getHours()+12-24;
+
+    // jours semaines
+    const weekDays=['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    let today= new Date();
+    let options= {weekday: 'long'};
+    let currentDay = today.toLocaleDateString('fr-Fr', options);
+    currentDay = currentDay.charAt(0).toUpperCase() + currentDay.slice(1);
+    let orderedWeekDaysStartingTomorrow = weekDays.slice(weekDays.indexOf(currentDay)+1).concat(weekDays.slice(0, weekDays.indexOf(currentDay)+1));
+
     return (
         <div className='weather-container'>
             <div className='left-panel'>
@@ -48,27 +64,7 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {activeSpot ? <div className='weather-case'>Précip</div> : <div className='weather-case'></div>}
                     {/* 2ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>H+0</div> : <div className='weather-case'></div>}
-                        {/* 2ème colonne */}
-                        {activeSpot ? 
-                        <div className='weather-case' style={{background:'white'}}>
-                            <img src={require(`../assets/weatherIcons/${weatherDescription.iconHourPlusZero}.svg`).default} alt="weather" width="50" height="50"/>
-                        </div> : <div className='weather-case'></div> }
-                        {/* 3ème colonne */}
-                        {activeSpot ?
-                        <div className='weather-case'>{weatherDescription.weatherTempPlusZero}°</div>
-                        : <div className='weather-case'></div> }
-                        {/* 4ème colonne */}
-                        {activeSpot ?
-                        <div className='weather-case'>{weatherDescription.humidityPlusZero}%</div>
-                        : <div className='weather-case'></div> }
-                        {/* 5ème colonne */}
-                        {weatherDescription.rainPlusZero ?
-                        <div className='weather-case'>{weatherDescription.rainPlusZero["1h"]}mm</div>
-                        : <div className='weather-case'></div> }
-                    {/* 3ème ligne */}
-                        {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>H+2</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{timePlusTwo}h</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -86,9 +82,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusTwo ?
                         <div className='weather-case'>{weatherDescription.rainPlusTwo["1h"]}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 4ème ligne */}
+                    {/* 3ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>H+4</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{timePlusFour}h</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -106,9 +102,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusFour ?
                         <div className='weather-case'>{weatherDescription.rainPlusFour["1h"]}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 5ème ligne */}
+                    {/* 4ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>H+6</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{timePlusSix}h</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -126,9 +122,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusSix ?
                         <div className='weather-case'>{weatherDescription.rainPlusSix["1h"]}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 6ème ligne */}
+                    {/* 5ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>H+8</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{timePlusHeight}h</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -146,9 +142,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusHeight ?
                         <div className='weather-case'>{weatherDescription.rainPlusHeight["1h"]}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 7ème ligne */}
+                    {/* 6ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>H+10</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{timePlusTen}h</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -166,9 +162,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusTen ?
                         <div className='weather-case'>{weatherDescription.rainPlusTen["1h"]}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 8ème ligne */}
+                    {/* 7ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>H+12</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{timePlusTwelve}h</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -190,14 +186,8 @@ const Weather = ({activeSpot, weatherDescription}) => {
                 {/* Div météo par jour */}
                 <div className='weekly-weather'>
                     {/* 1ère ligne */}
-                        <div className='weather-case'></div>
-                        <div className='weather-case'></div>
-                        {activeSpot ? <div className='weather-case'>Temp</div> : <div className='weather-case'></div>}
-                        {activeSpot ? <div className='weather-case'>Humidité</div> : <div className='weather-case'></div>}
-                        {activeSpot ? <div className='weather-case'>Précip</div> : <div className='weather-case'></div>}
-                    {/* 2ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>J+1</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{orderedWeekDaysStartingTomorrow[0]}</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -215,9 +205,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusOneDay ?
                         <div className='weather-case'>{weatherDescription.rainPlusOneDay}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 3ème ligne */}
+                    {/* 2ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>J+2</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{orderedWeekDaysStartingTomorrow[1]}</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -235,9 +225,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusTwoDays ?
                         <div className='weather-case'>{weatherDescription.rainPlusTwoDays}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 4ème ligne */}
+                    {/* 3ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>J+3</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{orderedWeekDaysStartingTomorrow[2]}</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -255,9 +245,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusThreeDays ?
                         <div className='weather-case'>{weatherDescription.rainPlusThreeDays}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 5ème ligne */}
+                    {/* 4ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>J+4</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{orderedWeekDaysStartingTomorrow[3]}</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -275,9 +265,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusFourDays ?
                         <div className='weather-case'>{weatherDescription.rainPlusFourDays}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 6ème ligne */}
+                    {/* 5ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>J+5</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{orderedWeekDaysStartingTomorrow[4]}</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -295,9 +285,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusFiveDays ?
                         <div className='weather-case'>{weatherDescription.rainPlusFiveDays}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 7ème ligne */}
+                    {/* 6ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>J+6</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{orderedWeekDaysStartingTomorrow[5]}</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>
@@ -315,9 +305,9 @@ const Weather = ({activeSpot, weatherDescription}) => {
                         {weatherDescription.rainPlusSixDays ?
                         <div className='weather-case'>{weatherDescription.rainPlusSixDays}mm</div>
                         : <div className='weather-case'></div> }
-                    {/* 8ème ligne */}
+                    {/* 7ème ligne */}
                         {/* 1ère colonne */}
-                        {activeSpot ? <div className='weather-case'>J+7</div> : <div className='weather-case'></div>}
+                        {activeSpot ? <div className='weather-case'>{orderedWeekDaysStartingTomorrow[6]}</div> : <div className='weather-case'></div>}
                         {/* 2ème colonne */}
                         {activeSpot ? 
                         <div className='weather-case' style={{background:'white'}}>

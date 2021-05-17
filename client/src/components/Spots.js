@@ -240,11 +240,12 @@ const Spots = ({dataSpots}) => {
                 ))
             }
             </div>
-            <Weather
-                activeSpot={activeSpot}
-                weatherDescription={weatherDescription}
-                className="weather"
-            />
+            <div className="weather">
+                <Weather
+                    activeSpot={activeSpot}
+                    weatherDescription={weatherDescription}
+                />
+            </div>
         </div>
     )
 }

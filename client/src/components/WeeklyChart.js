@@ -3,12 +3,27 @@ import {Line} from 'react-chartjs-2';
 
 const WeeklyChart = ({weatherDescription}) => {
 
+    // jours semaines
+    const weekDays=['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
+    let today= new Date();
+    let options= {weekday: 'long'};
+    let currentDay = today.toLocaleDateString('fr-Fr', options);
+    currentDay = currentDay.charAt(0).toUpperCase() + currentDay.slice(1);
+    const orderedWeekDaysStartingTomorrow = weekDays.slice(weekDays.indexOf(currentDay)+1).concat(weekDays.slice(0, weekDays.indexOf(currentDay)+1));
+
     const [chartData, setChartData] = useState({});
 
     useEffect(() => {
         const chart = () => {
         setChartData({
-                labels: ['J+1', 'J+2', 'J+3', 'J+4', 'J+5', 'J+6', 'J+7'],
+                labels: [orderedWeekDaysStartingTomorrow[0], 
+                        orderedWeekDaysStartingTomorrow[1], 
+                        orderedWeekDaysStartingTomorrow[2], 
+                        orderedWeekDaysStartingTomorrow[3], 
+                        orderedWeekDaysStartingTomorrow[4], 
+                        orderedWeekDaysStartingTomorrow[5], 
+                        orderedWeekDaysStartingTomorrow[6]
+                    ],
                 datasets: [
                 {
                     label: 'Températures min',
@@ -56,7 +71,7 @@ const WeeklyChart = ({weatherDescription}) => {
         weatherDescription.weatherMaxTempPlusFourDays, 
         weatherDescription.weatherMaxTempPlusFiveDays, 
         weatherDescription.weatherMaxTempPlusSixDays, 
-        weatherDescription.weatherMaxTempPlusSevenDays
+        weatherDescription.weatherMaxTempPlusSevenDays,
     ]);
 
     return (
